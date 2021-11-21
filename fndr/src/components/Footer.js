@@ -1,9 +1,21 @@
-import React from 'react'
+import React from 'react';
+import { Link } from "react-router-dom";
 
 export const Footer = () => {
     return (
         <div>
-            <h1>Footer</h1>
+            <footer>
+                <div className="container">
+                    <div className="inner-content">
+                        <ul className="nav-links">
+                            <li><Link to="/reel">Reel</Link></li>
+                            <li><Link to="/">WatchList</Link></li>
+                            <li><Link to="/watched">Watched</Link></li>                            
+                            <li><Link to="/add" className="btn">+ Add</Link></li>
+                        </ul>
+                    </div>
+                </div>
+            </footer>
         </div>
     )
 }

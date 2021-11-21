@@ -1,6 +1,8 @@
 import React, {useContext} from 'react'
 import { GlobalContext } from '../context/GlobalState'
 
+// BUTTONS TO WATCHLIST & TO WATCHED LIST
+
 export const MovieControls = ({movie, type}) => {
     const {removeMovieFromWatchList, addMovieToWatched, moveToWatchList, removeMovieFromWatched} = useContext(GlobalContext);
     return (

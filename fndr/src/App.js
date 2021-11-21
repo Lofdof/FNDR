@@ -1,6 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Header } from './components/Header';
+import { Footer } from './components/Footer';
+import { Reel } from './components/Reel';
 import { Watchlist } from './components/Watchlist';
 import { Watched } from './components/Watched';
 import { Add } from './components/Add';
@@ -14,10 +16,12 @@ function App() {
     <Router>
       <Header/>
       <Routes>
+        <Route path="/reel" element={<Reel/>}/>
         <Route exact path="/" element={<Watchlist/>}/>
         <Route path="/watched" element={<Watched/>}/>
         <Route path="/add" element={<Add/>}/>
       </Routes>
+      <Footer/>
     </Router>
     </GlobalProvider>
   );

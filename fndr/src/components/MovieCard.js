@@ -1,6 +1,8 @@
 import React from 'react'
 import { MovieControls } from './MovieControls'
 
+// MOVIECARD THAT IS SHOWN IN WATCHLIST & WATCHED
+
 export const MovieCard = ({ movie, type}) => {
     return (
         <div className="movie-card">
