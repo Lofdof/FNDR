@@ -4,20 +4,23 @@ import { Link } from "react-router-dom";
 export const Header = () => {
     return (
         <div>
-            <header>
+            <footer>
                 <div className="container">
                     <div className="inner-content">
-                        <div className="brand">
-                            <Link to="/">WatchList</Link>
+                        <div className="title">
+                            <Link to="/">FNDR</Link> 
                         </div>
-                        <ul className="nav-links">
+                        {/* <ul className="nav-links">
                             <li><Link to="/">WatchList</Link></li>
                             <li><Link to="/watched">Watched</Link></li>
                             <li><Link to="/add" className="btn">+ Add</Link></li>
-                        </ul>
+                        </ul> */}
                     </div>
                 </div>
-            </header>
+            </footer>
         </div>
     )
 }
+
+
+// TODO: F!NDR should lead to Tindercardswipe
