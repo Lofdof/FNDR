@@ -1,5 +1,11 @@
-import React, {useContext} from 'react'
+import React, {useContext, useState, useRef, useMemo} from 'react'
 import { GlobalContext } from '../context/GlobalState'
+import TinderCard from "react-tinder-card"
+// ICONS
+import { IconButton } from "@mui/material";
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import ThumbDownIcon from '@mui/icons-material/ThumbDown';
+import SettingsBackupRestoreIcon from '@mui/icons-material/SettingsBackupRestore';
 
 export const Reel = () => {
     const movies =  [
@@ -43,8 +49,91 @@ export const Reel = () => {
             provider: "Youtube, AppleTV",
         },
     ];
+
+    const [currentIndex, setCurrentIndex] = useState(movies.length - 1)
+    const [lastDirection, setLastDirection] = useState()
+    // used for outOfFrame closure
+    const currentIndexRef = useRef(currentIndex)
+
+    const childRefs = useMemo(
+        () =>
+      Array(movies.length)
+        .fill(0)
+            .map((i) => React.createRef()),
+        []
+    )
+
+    const updateCurrentIndex = (val) => {
+        setCurrentIndex(val)
+        currentIndexRef.current = val
+    }
+
+    const canGoBack = currentIndex < movies.length - 1
+
+    const canSwipe = currentIndex >= 0
+
+    // set last direction and decrease current index
+    const swiped = (direction, nameToDelete, index) => {
+        console.log(lastDirection);
+        setLastDirection(direction)
+        updateCurrentIndex(index - 1)
+    }
+
+    const outOfFrame = (name, idx) => {
+        console.log(`${name} (${idx}) left the screen!`, currentIndexRef.current)
+        // handle the case in which go back is pressed before card goes outOfFrame
+        currentIndexRef.current >= idx && childRefs[idx].current.restoreCard()
+    }
+
+    const swipe = async (dir) => {
+        if (canSwipe && currentIndex < movies.length) {
+        await childRefs[currentIndex].current.swipe(dir) // Swipe the card!
+        }
+    }
+
+    // GO BACK BUTTON: increase current index and show card
+    const goBack = async () => {
+        if (!canGoBack) return
+        const newIndex = currentIndex + 1
+        updateCurrentIndex(newIndex)
+        await childRefs[newIndex].current.restoreCard()
+    }
     
     return (
-        <p>lol</p>
+        <>
+            <div className="container">
+                <div className="reel__cardContainer">
+        {movies.map((movie, index) => (
+            <TinderCard
+            ref={childRefs[index]}
+            key={movie.name}
+            onSwipe={(dir) => swiped(dir, movie.name, index)}
+            onCardLeftScreen={() => outOfFrame(movie.name, index)}
+            className="reel__swipe"
+            key={movie.name}
+            preventSwipe={["up", "down"]}
+            >
+                <div
+                style={{ backgroundImage: `url(${movie.url})`}}
+                className="reel__card"
+                >
+                </div>
+            </TinderCard>
+            
+        ))}
+        </div>
+        <div className="reel__swipeButtons">
+            <IconButton className="reel_swipeButtonUndo" onClick={() => {goBack()}}>
+                <SettingsBackupRestoreIcon fontSize="large"/>
+            </IconButton>
+            <IconButton className="reel__swipeButtonYes" onClick={() => {swipe('right')}}>
+                <ThumbUpIcon fontSize="large" />
+            </IconButton>
+            <IconButton className="reel_swipeButtonNno"onClick={() => {swipe('left')}}>
+                <ThumbDownIcon fontSize="large" />
+            </IconButton>
+           </div>
+           </div>
+           </>
     )
 }

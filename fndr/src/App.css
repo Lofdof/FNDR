@@ -70,7 +70,7 @@ header a {
 
 /* Footer Styles */
 footer {
-  /* background-color: var(--primary__opaque); */
+  background-color: var(--primary);
   position: absolute;
   bottom: 0;
   width: 100%;
@@ -267,4 +267,45 @@ footer .nav-links {
   color: #c4c4c4;
   font-size: 3rem;
   text-align: center;
+}
+
+.reel__cardContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 5vh;
+}
+
+.reel__card {
+  position: relative;
+  width: 400px;
+  max-width: 85vw;
+  height: 600px;
+  background-size: cover;
+  background-position: center;
+}
+
+.reel__swipe {
+  position: absolute;
+}
+
+.reel__swipeButtons {
+  position: fixed;
+  left: 35%;
+  right: 35%;
+  bottom: 75px;
+  display: flex;
+  justify-content: space-evenly;
+  gap: 30px;
+}
+
+.reel_swipeButtonUndo {
+  color: hotpink !important;
+}
+
+.reel__swipeButtonYes {
+  color: green !important;
+}
+
+.reel_swipeButtonNno {
+  color: red !important;
 }
