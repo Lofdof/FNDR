@@ -299,13 +299,13 @@ footer .nav-links {
 }
 
 .reel_swipeButtonUndo {
-  color: hotpink !important;
+  color: #901af0 !important;
 }
 
 .reel__swipeButtonYes {
-  color: green !important;
+  color: var(--secondary) !important;
 }
 
 .reel_swipeButtonNno {
-  color: red !important;
+  color: #f01a7a !important;
 }

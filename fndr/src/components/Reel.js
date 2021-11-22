@@ -100,40 +100,43 @@ export const Reel = () => {
     }
     
     return (
-        <>
-            <div className="container">
-                <div className="reel__cardContainer">
-        {movies.map((movie, index) => (
-            <TinderCard
-            ref={childRefs[index]}
-            key={movie.name}
-            onSwipe={(dir) => swiped(dir, movie.name, index)}
-            onCardLeftScreen={() => outOfFrame(movie.name, index)}
-            className="reel__swipe"
-            key={movie.name}
-            preventSwipe={["up", "down"]}
-            >
-                <div
-                style={{ backgroundImage: `url(${movie.url})`}}
-                className="reel__card"
-                >
-                </div>
-            </TinderCard>
+    <>
+        <div className="container">
+            <div className="reel__cardContainer">
+                {movies.map((movie, index) => (
+                    <TinderCard
+                    ref={childRefs[index]}
+                    key={movie.name}
+                    onSwipe={(dir) => swiped(dir, movie.name, index)}
+                    onCardLeftScreen={() => outOfFrame(movie.name, index)}
+                    className="reel__swipe"
+                    key={movie.name}
+                    preventSwipe={["up", "down"]}
+                    >
+                    <div
+                    style={{ backgroundImage: `url(${movie.url})`}}
+                    className="reel__card"
+                    >
+                    </div>
+                    </TinderCard>
             
-        ))}
+                ))}
+            </div>
+            <div className="reel__swipeButtons">
+                {/* UNDO BUTTON */}
+                <IconButton className="reel_swipeButtonUndo" onClick={() => {goBack()}}>
+                    <SettingsBackupRestoreIcon fontSize="large"/>
+                </IconButton>
+                {/* YES BUTTON */}
+                <IconButton className="reel__swipeButtonYes" onClick={() => {swipe('right')}}>
+                    <ThumbUpIcon fontSize="large" />
+                </IconButton>
+                {/* NO BUTTON */}
+                <IconButton className="reel_swipeButtonNno"onClick={() => {swipe('left')}}>
+                    <ThumbDownIcon fontSize="large" />
+                </IconButton>
+            </div>
         </div>
-        <div className="reel__swipeButtons">
-            <IconButton className="reel_swipeButtonUndo" onClick={() => {goBack()}}>
-                <SettingsBackupRestoreIcon fontSize="large"/>
-            </IconButton>
-            <IconButton className="reel__swipeButtonYes" onClick={() => {swipe('right')}}>
-                <ThumbUpIcon fontSize="large" />
-            </IconButton>
-            <IconButton className="reel_swipeButtonNno"onClick={() => {swipe('left')}}>
-                <ThumbDownIcon fontSize="large" />
-            </IconButton>
-           </div>
-           </div>
-           </>
+    </>
     )
 }
