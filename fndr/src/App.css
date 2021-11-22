@@ -4,6 +4,7 @@
   --body: #222629;
   --primary: #474b4f;
   --secondary: #7af01a;
+  --tertiary: #61892f;
   --white: #fff;
   --text: #6b6e70;
 }
@@ -147,7 +148,7 @@ footer .nav-links {
 
 .result-card .info .title {
   font-size: 1.25rem;
-  color: var(--primary);
+  color: var(--text);
   font-weight: 600;
   margin: 0;
 }
@@ -155,7 +156,7 @@ footer .nav-links {
 .result-card .info .release-date {
   font-size: 1.25rem;
   font-weight: 300;
-  color: var(--primary);
+  color: var(--text);
   margin: 0;
 }
 

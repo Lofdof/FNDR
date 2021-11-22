@@ -10,19 +10,6 @@ import SettingsBackupRestoreIcon from '@mui/icons-material/SettingsBackupRestore
 export const Reel = (movie) => {
     const movies =  [
         {
-            name: "Call me by your name",
-            url: "https://www.omdb.org/image/default/40260.jpeg?v=1",
-            synopsis: "In 1980s Italy, a romance develops between a seventeen-year-old student and an older man hired as his father's research assistant.",
-            rating: "7.9",
-            genre: "Drama, Romance",
-            length: "2:10h",
-            country: "Italy",
-            year: "2017",
-            director: "Luca Guadagnino",
-            cast: "Armie Hammer, Timothée Chalamet, Michael Stuhlbarg",
-            provider: "Netflix, Amazon Prime",
-        },
-        {
             name: "Mommy",
             url: "https://www.omdb.org/image/default/32322.jpeg?v=1",
             synopsis: "A widowed mother left to raise her violent son alone finds new hope when a mysterious neighbor becomes involved in her household.",
@@ -48,9 +35,22 @@ export const Reel = (movie) => {
             cast: "Brie Larson, Frantz Turner, John Gallagher Jr.",
             provider: "Youtube, AppleTV",
         },
+        {
+            name: "Call me by your name",
+            url: "https://www.omdb.org/image/default/40260.jpeg?v=1",
+            synopsis: "In 1980s Italy, a romance develops between a seventeen-year-old student and an older man hired as his father's research assistant.",
+            rating: "7.9",
+            genre: "Drama, Romance",
+            length: "2:10h",
+            country: "Italy",
+            year: "2017",
+            director: "Luca Guadagnino",
+            cast: "Armie Hammer, Timothée Chalamet, Michael Stuhlbarg",
+            provider: "Netflix, Amazon Prime",
+        },
     ];
 
-    const { addMovieToWatchList, addMovieToWatched, watchlist, watched } = useContext(GlobalContext)
+    const { addMovieToWatchList, removeMovieFromWatchList } = useContext(GlobalContext)
 
     const [currentIndex, setCurrentIndex] = useState(movies.length - 1)
     const [lastDirection, setLastDirection] = useState()
@@ -126,7 +126,7 @@ export const Reel = (movie) => {
             </div>
             <div className="reel__swipeButtons">
                 {/* UNDO BUTTON */}
-                <IconButton className="reel_swipeButtonUndo" onClick={() => {goBack()}}>
+                <IconButton className="reel_swipeButtonUndo" onClick={() => {{goBack()}; removeMovieFromWatchList(movie)}}>
                     <SettingsBackupRestoreIcon fontSize="large"/>
                 </IconButton>
                 {/* YES BUTTON */}
