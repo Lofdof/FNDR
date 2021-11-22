@@ -7,7 +7,7 @@ import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import SettingsBackupRestoreIcon from '@mui/icons-material/SettingsBackupRestore';
 
-export const Reel = () => {
+export const Reel = (movie) => {
     const movies =  [
         {
             name: "Call me by your name",
@@ -49,6 +49,8 @@ export const Reel = () => {
             provider: "Youtube, AppleTV",
         },
     ];
+
+    const { addMovieToWatchList, addMovieToWatched, watchlist, watched } = useContext(GlobalContext)
 
     const [currentIndex, setCurrentIndex] = useState(movies.length - 1)
     const [lastDirection, setLastDirection] = useState()
@@ -128,7 +130,7 @@ export const Reel = () => {
                     <SettingsBackupRestoreIcon fontSize="large"/>
                 </IconButton>
                 {/* YES BUTTON */}
-                <IconButton className="reel__swipeButtonYes" onClick={() => {swipe('right')}}>
+                <IconButton className="reel__swipeButtonYes" onClick={() => {{swipe('right')}; addMovieToWatchList(movie)}}>
                     <ThumbUpIcon fontSize="large" />
                 </IconButton>
                 {/* NO BUTTON */}
