@@ -5,7 +5,7 @@ import TinderCard from "react-tinder-card";
 import { IconButton } from "@mui/material";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
-import SettingsBackupRestoreIcon from "@mui/icons-material/SettingsBackupRestore";
+import UndoIcon from "@mui/icons-material/Undo";
 
 export const Reel = (movie) => {
   const [movies, setMovies] = useState([]);
@@ -113,7 +113,8 @@ export const Reel = (movie) => {
               preventSwipe={["up", "down"]}
             >
               <img
-                src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
+                className="reel__image"
+                src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                 alt={`${movie.title} Poster`}
               />
             </TinderCard>
@@ -127,7 +128,7 @@ export const Reel = (movie) => {
               goBack();
             }}
           >
-            <SettingsBackupRestoreIcon fontSize="large" />
+            <UndoIcon fontSize="large" />
           </IconButton>
           {/* YES BUTTON */}
           <IconButton

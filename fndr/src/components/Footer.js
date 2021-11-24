@@ -11,7 +11,7 @@ export const Footer = () => {
               <Link to="/reel">Reel</Link>
             </li>
             <li>
-              <Link to="/">WatchList</Link>
+              <Link to="/">Watchlist</Link>
             </li>
             <li>
               <Link to="/watched">Watched</Link>

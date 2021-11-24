@@ -48,12 +48,11 @@ body {
   padding: 0.5rem;
   background-color: var(--secondary);
   color: var(--primary);
-  border-radius: 5px;
   text-transform: uppercase;
   font-weight: 700;
   display: inline-block;
   border: none;
-  font-size: 0.8rem;
+  font-size: 1rem;
   transition: all 0.3s ease;
   line-height: 1.1;
 }
@@ -75,6 +74,7 @@ header {
   flex-direction: row;
   position: fixed;
   top: 0;
+  padding: 0 2rem;
 }
 
 header > .inner-content {
@@ -94,6 +94,7 @@ footer {
   width: 100vw;
   position: fixed;
   bottom: 0;
+  padding: 0.2rem 1.5rem;
 }
 
 footer a {
@@ -120,8 +121,7 @@ footer .nav-links {
   width: 100%;
   background-color: var(--primary);
   padding: 10px;
-  border-radius: 5px;
-  border: none;
+  border: solid var(--tertiary);
   color: var(--white);
   font-size: 1.25rem;
 }
@@ -145,7 +145,6 @@ footer .nav-links {
   width: 75px;
   height: 113px;
   background-color: #dbdada;
-  border-radius: 5px;
   margin-right: 15px;
   display: block;
   color: transparent;
@@ -159,7 +158,7 @@ footer .nav-links {
 
 .result-card .info .title {
   font-size: 1.25rem;
-  color: var(--text);
+  color: var(--tertiary);
   font-weight: 600;
   margin: 0;
 }
@@ -173,12 +172,12 @@ footer .nav-links {
 
 .result-card .controls {
   display: flex;
-  gap: 0.3rem;
+  gap: 0.5rem;
 }
 
 /* Movie Page */
 .movie-page {
-  padding: 30px 0;
+  padding: 1rem 0;
 }
 
 .movie-page .header {
@@ -217,7 +216,6 @@ footer .nav-links {
 
 .movie-card {
   width: 100%;
-  border-radius: 5px;
   overflow: hidden;
   position: relative;
   border: 0;
@@ -246,11 +244,11 @@ footer .nav-links {
 .movie-card .inner-card-controls {
   display: inline;
   position: absolute;
-  bottom: 20px;
+  width: 60%;
+  bottom: 0px;
   left: 50%;
   transform: translateX(-50%);
   background: rgba(0, 0, 0, 0.8);
-  border-radius: 5px;
   padding: 3px;
   transition: all 0.3s ease;
 }
@@ -281,6 +279,10 @@ footer .nav-links {
   justify-content: center;
 }
 
+.reel__image {
+  width: 80vw;
+}
+
 /* .reel__card {
   position: relative;
   width: 400px;
@@ -305,7 +307,7 @@ footer .nav-links {
 }
 
 .reel_swipeButtonUndo {
-  color: #901af0 !important;
+  color: var(--white) !important;
 }
 
 .reel__swipeButtonYes {
