@@ -60,16 +60,12 @@ export const Reel = (movie) => {
   useEffect(() => {
     const fetchMovies = () => {
       fetch(
-        `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${page}&with_watch_monetization_types=flatrate`
+        `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=5&with_watch_monetization_types=flatrate`
       )
         .then((result) => result.json())
         .then((data) => {
           if (!data.errors) {
             setMovies([...movies, ...data.results]);
-            setCurrentIndex((currentIndex) => {
-              return currentIndex + 20;
-            });
-            currentIndexRef.current += 20;
           } else {
             setMovies([]);
           }
@@ -78,9 +74,6 @@ export const Reel = (movie) => {
 
     fetchMovies();
   }, [page]);
-
-  console.log({ page, currentIndex });
-  //   console.table(movies);
 
   const { addMovieToWatchList } = useContext(GlobalContext);
 
@@ -95,11 +88,6 @@ export const Reel = (movie) => {
   const updateCurrentIndex = (val) => {
     setCurrentIndex(val);
     currentIndexRef.current = val;
-    if (val === 3) {
-      setPage((page) => {
-        return page + 1;
-      });
-    }
   };
 
   const canGoBack = currentIndex < movies.length - 1;
@@ -135,7 +123,7 @@ export const Reel = (movie) => {
 
   return (
     <>
-      <div className="container">
+      <div>
         <div className="reel__cardContainer">
           {movies.map((movie, index) => (
             <TinderCard
