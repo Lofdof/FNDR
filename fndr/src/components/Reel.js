@@ -8,64 +8,36 @@ import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import SettingsBackupRestoreIcon from "@mui/icons-material/SettingsBackupRestore";
 
 export const Reel = (movie) => {
-  // const movies =  [
-  //     {
-  //         name: "Mommy",
-  //         url: "https://www.omdb.org/image/default/32322.jpeg?v=1",
-  //         synopsis: "A widowed mother left to raise her violent son alone finds new hope when a mysterious neighbor becomes involved in her household.",
-  //         rating: "8.1",
-  //         genre: "Drama",
-  //         length: "2:19h",
-  //         country: "Canada",
-  //         year: "2014",
-  //         director: "Xavier Dolan",
-  //         cast: "Anne Dorval, Antoine Olivier Pilon, Suzanne Clément",
-  //         provider: "Amazon Prime",
-  //     },
-  //     {
-  //         name: "Short Term 12",
-  //         url: "https://www.omdb.org/image/default/30515.jpeg?v=1",
-  //         synopsis: "A 20-something residential treatment facility employee navigates the troubled waters of this world with her co-worker and longtime boyfriend.",
-  //         rating: "8.0",
-  //         genre: "Drama",
-  //         length: "1:36h",
-  //         country: "United States",
-  //         year: "2013",
-  //         director: "Destin Daniel Cretton",
-  //         cast: "Brie Larson, Frantz Turner, John Gallagher Jr.",
-  //         provider: "Youtube, AppleTV",
-  //     },
-  //     {
-  //         name: "Call me by your name",
-  //         url: "https://www.omdb.org/image/default/40260.jpeg?v=1",
-  //         synopsis: "In 1980s Italy, a romance develops between a seventeen-year-old student and an older man hired as his father's research assistant.",
-  //         rating: "7.9",
-  //         genre: "Drama, Romance",
-  //         length: "2:10h",
-  //         country: "Italy",
-  //         year: "2017",
-  //         director: "Luca Guadagnino",
-  //         cast: "Armie Hammer, Timothée Chalamet, Michael Stuhlbarg",
-  //         provider: "Netflix, Amazon Prime",
-  //     },
-  // ];
-
   const [movies, setMovies] = useState([]);
-  const [page, setPage] = useState(1);
   const [currentIndex, setCurrentIndex] = useState(movies.length - 1);
   const [lastDirection, setLastDirection] = useState();
   // used for outOfFrame closure
   const currentIndexRef = useRef(currentIndex);
 
+  const { addMovieToWatchList, removeMovieFromWatchList, watched, watchlist } =
+    useContext(GlobalContext);
+
   useEffect(() => {
     const fetchMovies = () => {
       fetch(
-        `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=5&with_watch_monetization_types=flatrate`
+        `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_watch_monetization_types=flatrate`
       )
         .then((result) => result.json())
         .then((data) => {
           if (!data.errors) {
-            setMovies([...movies, ...data.results]);
+            const newMovies = data.results.filter(
+              (movie) =>
+                !(
+                  watchlist.find(
+                    (movieOnWatchList) => movieOnWatchList.id === movie.id
+                  ) ||
+                  watched.find(
+                    (movieOnWatchedList) => movieOnWatchedList.id === movie.id
+                  )
+                )
+            );
+            setMovies(newMovies);
+            setCurrentIndex(newMovies.length - 1);
           } else {
             setMovies([]);
           }
@@ -73,16 +45,16 @@ export const Reel = (movie) => {
     };
 
     fetchMovies();
-  }, [page]);
+  }, []);
 
-  const { addMovieToWatchList } = useContext(GlobalContext);
+  console.log(currentIndex);
 
   const childRefs = useMemo(
     () =>
       Array(movies.length)
         .fill(0)
         .map((i) => React.createRef()),
-    []
+    [movies]
   );
 
   const updateCurrentIndex = (val) => {
@@ -95,21 +67,26 @@ export const Reel = (movie) => {
   const canSwipe = currentIndex >= 0;
 
   // set last direction and decrease current index
-  const swiped = (direction, nameToDelete, index) => {
+  const swiped = (direction, movie, index) => {
     console.log(lastDirection);
     setLastDirection(direction);
     updateCurrentIndex(index - 1);
+    if (direction === "right") {
+      addMovieToWatchList(movie);
+    }
   };
 
   const outOfFrame = (name, idx) => {
-    // console.log(`${name} (${idx}) left the screen!`, currentIndexRef.current);
+    console.log(`${name} (${idx}) left the screen!`, currentIndexRef.current);
     // handle the case in which go back is pressed before card goes outOfFrame
-    // currentIndexRef?.current >= idx && childRefs[idx].current.restoreCard();
+    currentIndexRef.current >= idx && childRefs[idx].current.restoreCard();
   };
 
   const swipe = async (dir) => {
     if (canSwipe && currentIndex < movies.length) {
-      await childRefs[currentIndex].current.swipe(dir); // Swipe the card!
+      try {
+        await childRefs[currentIndex].current?.swipe(dir); // Swipe the card!
+      } catch {}
     }
   };
 
@@ -118,6 +95,7 @@ export const Reel = (movie) => {
     if (!canGoBack) return;
     const newIndex = currentIndex + 1;
     updateCurrentIndex(newIndex);
+    removeMovieFromWatchList(movies[newIndex].id);
     await childRefs[newIndex].current.restoreCard();
   };
 
@@ -129,7 +107,7 @@ export const Reel = (movie) => {
             <TinderCard
               ref={childRefs[index]}
               key={movie.id}
-              onSwipe={(dir) => swiped(dir, movie.id, index)}
+              onSwipe={(dir) => swiped(dir, movie, index)}
               onCardLeftScreen={() => outOfFrame(movie.id, index)}
               className="reel__swipe"
               preventSwipe={["up", "down"]}
@@ -156,7 +134,7 @@ export const Reel = (movie) => {
             className="reel__swipeButtonYes"
             onClick={() => {
               swipe("right");
-              addMovieToWatchList(movie);
+              addMovieToWatchList(movies[currentIndex]);
             }}
           >
             <ThumbUpIcon fontSize="large" />

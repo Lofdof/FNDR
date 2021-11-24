@@ -245,7 +245,6 @@ footer .nav-links {
 
 .movie-card .inner-card-controls {
   display: inline;
-  background-color: red;
   position: absolute;
   bottom: 20px;
   left: 50%;
@@ -253,12 +252,7 @@ footer .nav-links {
   background: rgba(0, 0, 0, 0.8);
   border-radius: 5px;
   padding: 3px;
-  opacity: 0;
   transition: all 0.3s ease;
-}
-
-.movie-card:hover .inner-card-controls {
-  opacity: 1;
 }
 
 .ctrl-btn {
